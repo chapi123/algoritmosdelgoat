@@ -22,7 +22,7 @@ for size in sizes:
     end = time.time()
 
     times.append(end - start)
-    print(f"time for {size} numbers: {end - start:} seconds")
+    print(f"time for {size} numbers: {end - start} seconds")
 
 plt.plot(sizes, times, marker='o')
 plt.xlabel("Number of Elements")
@@ -32,4 +32,7 @@ plt.grid(True)
 plt.show()
 
 #total de operaciones: n*(n-1)/2 → O(n²)
-#se puede mejorar¿¿ si, usando un set, O(n), pero no es brute force
+#se puede mejorar¿¿ si, usando un set, O(n), pero no es brute 
+
+#el grafico puede salir con una curva rara, pero eso depende del random,
+#si se busca el peor caso siempre la linea va a ser mas recta

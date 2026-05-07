@@ -25,9 +25,9 @@ for size in sizes:
     nums = list(range(size))
     wanted = int(random.randint(0, size - 1))
 
-    start = time.time()
+    start = time.perf_counter()
     binary_search(nums, wanted)
-    end = time.time()
+    end = time.perf_counter()
 
     times.append(end - start)
     print(f"time for {size} numbers: {end - start:} seconds")
@@ -38,3 +38,6 @@ plt.ylabel("Time (seconds)")
 plt.title("Binary Search Performance - O(log n)")
 plt.grid(True)
 plt.show()
+
+#el grafico puede salir con una curva rara, pero eso depende del random,
+#si se busca el peor caso siempre la linea va a ser mas recta

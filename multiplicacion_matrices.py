@@ -37,3 +37,6 @@ plt.show()
 
 #se puede mejorar¿ si, existe el algoritmo de Strassen que lo reduce a O(n^2.8),
 #lo encontre buscando con ia, pero es complicado de implementar
+
+#el grafico puede salir con una curva rara, pero eso depende del random,
+#si se busca el peor caso siempre la linea va a ser mas recta
