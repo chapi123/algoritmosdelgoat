@@ -6,4 +6,14 @@ def factorial(n):
     else:
         return n* factorial(n-1)
     
-factorial(20)
+#
+#       factorial(4)
+#       ├─ factorial(3)    
+#       |   ├─factorial(2)
+#       |   |  ├─factorial(1) 
+#       |   |  |  ├─factorial(0) = 0 caso base
+#
+#
+#
+#
+#
