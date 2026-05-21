@@ -1,9 +1,10 @@
 def fibonacci (n) :
-    listt = [0,1]
-    for i in range(n):
-        result = listt[i+1] + listt[i]
-        listt.append(result) 
-    return listt[n]
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
 
 #
 #                              F(5)

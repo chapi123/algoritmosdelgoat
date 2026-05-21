@@ -2,6 +2,8 @@ import random
 import time
 import matplotlib.pyplot as plt
 
+from graph import graph
+
 def bubble_sort(listt):
     for i in range(len(listt)):
         for i in range(len(listt) - 1):
@@ -22,40 +24,43 @@ def selection_sort(listt):
         listt[i], listt[min_index] = listt[min_index], listt[i]
     return listt
 
+def insertion_sort(listt):
+    for i in range(1, len(listt)):
+        value = listt[i]
+        x = i - 1
+
+        while x >= 0 and value < listt[x]:
+            listt[x + 1] = listt[x]
+            x -= 1
+
+        listt[x + 1] = value
+
+    return listt
 
 def main () :
     sizes = [100, 1000, 5000, 10000]
     times_b = []
     times_s = []
-    for size in sizes :
-        listt = []
-        
-        for i in range(size):
-            listt.append(random.randint(1,size))
-        
+    times_i = []
+
+    for size in sizes:
+        listt = [random.randint(1, size) for _ in range(size)]
+
         start = time.perf_counter()
         bubble_sort(listt.copy())
-        end = time.perf_counter()
-        times_b.append(end - start)
-        print(f"time for {size} numbers with bubble sort: {end - start:} seconds")
+        times_b.append(time.perf_counter() - start)
 
         start = time.perf_counter()
         selection_sort(listt.copy())
-        end = time.perf_counter()
-        times_s.append(end - start)
-        print(f"time for {size} numbers with selection sort: {end - start:} seconds")
+        times_s.append(time.perf_counter() - start)
 
-    plt.plot(sizes, times_b, marker='o', label='Bubble Sort')
-    plt.plot(sizes, times_s, marker='o', label='Selection Sort')
+        start = time.perf_counter()
+        insertion_sort(listt.copy())
+        times_i.append(time.perf_counter() - start)
 
-    plt.xlabel("Number of Elements")
-    plt.ylabel("Time (seconds)")
-    plt.title("Sorting Algorithm Performance")
-    plt.grid(True)
-    plt.legend()
+    names = ['Bubble Sort', 'Selection Sort', 'Insertion Sort']
 
-    plt.show()
+    graph(sizes, names, times_b, times_s, times_i)
 
-
-
-main()
+if __name__ == "__main__":
+    main()
