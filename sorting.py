@@ -37,11 +37,36 @@ def insertion_sort(listt):
 
     return listt
 
+def partition(array, low, high):  # funcion que acomoda elementos alrededor del pivote
+    pivot = array[high]           # toma el ultimo elemento como pivote
+    i = low - 1                   # indice del elemento menor
+
+    for j in range(low, high):    # recorre el arreglo desde low hasta high-1
+        if array[j] <= pivot:     # verifica si el elemento es menor o igual al pivote
+            i += 1                # aumenta el indice
+            array[i], array[j] = array[j], array[i]  # intercambia posiciones
+
+    array[i+1], array[high] = array[high], array[i+1]  # coloca el pivote en su lugar correcto
+    return i+1                   # devuelve la posicion del pivote
+
+
+def quick_sort(array, low=0, high=None):  # funcion principal de quicksort
+    if high is None:                     # verifica si high no fue definido
+        high = len(array) - 1            # usa el ultimo indice del arreglo
+
+    if low < high:                       # verifica si hay mas de un elemento
+        pivot_index = partition(array, low, high)  # obtiene posicion del pivote
+        
+        quick_sort(array, low, pivot_index-1)       # ordena la parte izquierda
+        quick_sort(array, pivot_index+1, high)      # ordena la parte derecha
+
+
 def main () :
     sizes = [100, 1000, 5000, 10000]
     times_b = []
     times_s = []
     times_i = []
+    times_q = []
 
     for size in sizes:
         listt = [random.randint(1, size) for _ in range(size)]
@@ -58,9 +83,13 @@ def main () :
         insertion_sort(listt.copy())
         times_i.append(time.perf_counter() - start)
 
-    names = ['Bubble Sort', 'Selection Sort', 'Insertion Sort']
+        start = time.perf_counter()
+        quick_sort(listt.copy())
+        times_q.append(time.perf_counter() - start)
 
-    graph(sizes, names, times_b, times_s, times_i)
+    names = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Quick Sort']
+
+    graph(sizes, names, times_b, times_s, times_i, times_q)
 
 if __name__ == "__main__":
     main()
