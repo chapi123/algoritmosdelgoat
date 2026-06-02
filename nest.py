@@ -1,29 +1,28 @@
 from queue_stack_class import Stack
 
-def nest (nest) :
-    instance = Stack('')
-    for i in nest:
-        if i in '[({' :
-            Stack.push(instance,i)
+def nest(text):
+    stack = Stack()
 
-        if i == '(':
-            if i == Stack.peek(instance) or Stack.isEmpty(instance):
-                return 0
-            Stack.pop(instance)
+    for c in text:
 
-        if i == '[':
-            if i == Stack.peek(instance) or Stack.isEmpty(instance):
-                return 0
-            Stack.pop()
+        if c in "([{":
+            stack.push(c)
 
-        if i == '{':
-            if i == Stack.peek(instance) or Stack.isEmpty(instance):
+        elif c == ")":
+            if stack.isEmpty() or stack.peek() != "(":
                 return 0
-            Stack.pop(instance) 
-    
-    if Stack.isEmpty(instance):
-        return 1
-    else:
-        return 0
-    
-nest('[()]')
+            stack.pop()
+
+        elif c == "]":
+            if stack.isEmpty() or stack.peek() != "[":
+                return 0
+            stack.pop()
+
+        elif c == "}":
+            if stack.isEmpty() or stack.peek() != "{":
+                return 0
+            stack.pop()
+
+    return 1 if stack.isEmpty() else 0
+
+print(nest('[())]'))
