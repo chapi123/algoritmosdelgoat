@@ -1,40 +1,46 @@
 class Stack:
-    def __init__(self,stack):
-        self.stack = stack
+    def __init__(self, stack=None):
+        if stack is None:
+            self.stack = []
+        elif isinstance(stack, str):
+            self.stack = list(stack)
+        else:
+            self.stack = list(stack)
 
-    def push(self,element) :
+    def push(self, element):
         self.stack.append(element)
         return self.stack
-    
-    def pop(self) :
-        return self.stack.pop(-1)
+
+    def pop(self):
+        if self.isEmpty():
+            raise IndexError("pop from empty stack")
+        return self.stack.pop()
 
     def peek(self):
-        return self.stack[len(self.stack)-1]
+        if self.isEmpty():
+            return None
+        return self.stack[-1]
 
-    def isEmpty (self):
+    def isEmpty(self):
         return len(self.stack) == 0
 
-    def size (self):
+    def size(self):
         return len(self.stack)
-    
-    def transfer(self):
-        self.newstack = []
-        while len(self.stack) != 0:
-            popped = self.stack.pop(-1)
-            self.newstack.append(popped)
-        return self.newstack
-    
-    def stacking_list(self):
-        self.list_stacked = []
-        for i in range (len(self.stack)):
-            self.list_stacked.append(self.stack[(-i-1)])
-        return self.list_stacked
 
-    def empty(self) :
-        if len(self.stack) == 0:
-            return self.stack
-        return self.empty(self.stack.pop())
+    def transfer(self):
+        newstack = []
+        while not self.isEmpty():
+            newstack.append(self.pop())
+        return newstack
+
+    def stacking_list(self):
+        return [self.stack[-i - 1] for i in range(len(self.stack))]
+
+    def empty(self):
+        if self.isEmpty():
+            return []
+        self.pop()
+        return self.empty()
 
 class Queue:
     def __init__(self, queue):
@@ -90,4 +96,6 @@ def main ():
     print([3,4,7,3,7,8,0,1,2,5])
     c4 = Stack([3,4,7,3,7,8,0,1,2,5])
     print(Stack.stacking_list(c4))
-main()
+
+if __name__ == '__main__':
+    main()
