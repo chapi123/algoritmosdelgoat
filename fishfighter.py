@@ -16,7 +16,7 @@ def surviving_fish(A,B):
 
             if instance.isEmpty():
                 survivors +=1
+    
     return survivors + instance.size()
 
 print(surviving_fish([2,5,7,9,2,4], [0,1,0,1,0,0]))
-        
