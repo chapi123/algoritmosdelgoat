@@ -24,5 +24,3 @@ def nest(text):
             stack.pop()
 
     return 1 if stack.isEmpty() else 0
-
-print(nest('[()]'))
