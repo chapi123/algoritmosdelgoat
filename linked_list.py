@@ -5,16 +5,18 @@ class Node:
         self.prev = None
 
 class SingleLink:
-    def __init__ (self, values):
-        
-        nodes = [Node(value) for value in values]
+    def __init__ (self, values=None):
+        if values:
+            nodes = [Node(value) for value in values]
 
-        for i in range(len(nodes)-1):
-            nodes[i].next = nodes[i+1]
+            for i in range(len(nodes)-1):
+                nodes[i].next = nodes[i+1]
 
-        self.head = nodes[0]
-        self.tail = nodes[-1]
-
+            self.head = nodes[0]
+            self.tail = nodes[-1]
+        else:
+            self.head = None
+            self.tail = None
 
     def print_values (self):
         current = self.head
