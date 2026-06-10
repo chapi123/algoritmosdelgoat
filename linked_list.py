@@ -22,8 +22,18 @@ class SingleLink:
             print(current.data)
             current = current.next
 
-    def iscicled (self):
-        return self.tail == None
+    def iscycled (self):
+        slow = self.head
+        fast = self.head
+
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+            
+        return False
 
     def get_item (self, index):
         current = self.head
@@ -54,21 +64,21 @@ class SingleLink:
                     current.data, current.next.data = current.next.data, current.data
                     changed = True         
                 current = current.next
-    
+
     def invert_nodes(self):
-        nodes = self.count_nodes()
+        prev = None
+        current = self.head
+        self.tail = self.head
+        while current is not None:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
 
-        for i in range(nodes//2):
-            left = self.get_item(i)
-            right = self.get_item(nodes-1-i)
-
-            left.data, right.data = right.data, left.data
-
-
-instance = SingleLink([1,2,3,4,5,7,8])
-instance.invert_nodes()
-instance.print_values()
-
+instance = SingleLink([1,2,3,5,6,8,5,5,7,9,4,2,4,7,69,67])
+instance.tail.next = instance.get_item(3)
+print(instance.iscycled())
 
 class DoubleLink:
     def __init__ (self, values):
