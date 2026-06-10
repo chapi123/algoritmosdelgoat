@@ -37,16 +37,32 @@ class SingleLink:
             
         return False
 
-    def get_item (self, index):
+    def get_index_value (self, index):
         current = self.head
-        for _ in range(index):
+        if current != None:
+            for _ in range(index):
+                if current != None:
+                    current = current.next
+                else: raise IndexError('no index')
+            return current
+        return False
+    
+    def get_item (self, value):
+        current = self.head
+        while current != None:
+            if current.data == value:
+                return current
             current = current.next
-        return current
+        return False
 
     def add_node(self, data):
         new_node = Node(data)
-        self.tail.next = new_node
-        self.tail = new_node
+        if self.head is not None:
+            self.tail.next = new_node
+            self.tail = new_node
+        else:
+            self.head = new_node
+            self.tail = new_node
 
     def count_nodes(self):
         current = self.head
@@ -78,9 +94,52 @@ class SingleLink:
             current = next_node
         self.head = prev
 
-instance = SingleLink([1,2,3,5,6,8,5,5,7,9,4,2,4,7,69,67])
-instance.tail.next = instance.get_item(3)
-print(instance.iscycled())
+    def isEmpty(self):
+        return self.head == None
+    
+    def delete(self, data):
+        if self.head is None:
+            raise IndexError("empty")
+
+        if self.head.data == data:
+            self.head = self.head.next
+
+            if self.head is None:
+                self.tail = None
+
+            return True
+
+        prev_node = self.head
+        current = self.head.next
+
+        while current is not None:
+            if current.data == data:
+                prev_node.next = current.next
+
+                if current == self.tail:
+                    self.tail = prev_node
+
+                return True
+
+            prev_node = current
+            current = current.next
+
+        return False
+
+    def insert(self, data, prev):
+        new_node = Node(data)
+        prev_node = self.get_item(prev)
+
+        if prev_node == False:
+            return False
+
+        next_node = prev_node.next
+        prev_node.next = new_node
+        new_node.next = next_node
+
+        if prev_node == self.tail:
+            self.tail = new_node
+
 
 class DoubleLink:
     def __init__ (self, values):

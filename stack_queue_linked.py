@@ -1,108 +1,76 @@
-from linked_list import Node
+from linked_list import SingleLink
 
 class Stack:
     def __init__(self, values=None):
         if values:
-            nodes = [Node(value) for value in values]
-
-            for i in range(len(nodes)-1):
-                nodes[i].next = nodes[i+1]
-
-            self.head = nodes[0]
-            self.tail = nodes[-1]
+            self.instance = SingleLink(values)
         else:
-            self.head = None
-            self.tail = None
+            self.instance = SingleLink()
 
-    def push(self, data):
-        new_node = Node(data)
-
-        if self.head == None:
-            self.head = new_node
-            self.tail= new_node
-        else:
-            new_node.next = self.head
-            self.head = new_node
-
+    def push(self,data):
+        self.instance.add_node(data)
+    
     def pop(self):
-        if self.head is None:
+        if self.instance.head is None:
             raise IndexError("empty stack")
 
-        value = self.head.data
-        self.head = self.head.next
+        if self.instance.head.next == None:
+            popped = self.instance.head
+            self.instance.head = None
+            self.instance.tail = None
+            return popped.data
 
-        if self.head is None:
-            self.tail = None
+        current = self.instance.head
+        popped = current.next
+        while current.next != self.instance.tail:
+            current = current.next
+            popped = current.next
+        
+        self.instance.tail = current
+        current.next = None
 
-        return value
+        return popped.data
     
     def peek(self):
-        if self.head == None:
+        if self.instance.head == None:
             return None
-        return self.head.data
+        return self.instance.tail.data
     
     def isEmpty(self):
-        return self.head == None
+        return self.instance.head == None
     
     def size(self):
-        current = self.head
-        size = 0
-        while current is not None:
-            current = current.next
-            size += 1
-        return size
-
-    def clean(self):
-        if self.head == None:
-            return True
-        self.pop()
-        return self.clean()
+        return self.instance.count_nodes()
     
 class Queue:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-
-    def enqueue(self, value):
-        new_node = Node(value)
-
-        if self.head is None:
-            self.head = new_node
-            self.tail = new_node
+    def __init__(self, values=None):
+        if values:
+            self.instance = SingleLink(values)
         else:
-            self.tail.next = new_node
-            self.tail = new_node
+            self.instance = SingleLink()
 
+    def enqueue(self,data):
+        self.instance.add_node(data)
+    
     def dequeue(self):
-        if self.head is None:
+        if self.instance.head is None:
             return None
 
-        value = self.head.data
-        self.head = self.head.next
+        value = self.instance.head.data
+        self.instance.head = self.instance.head.next
 
-        if self.head is None:
-            self.tail = None
+        if self.instance.head is None:
+            self.instance.tail = None
 
         return value
-
-    def peek(self):
-        if self.head is None:
-            return None
-        return self.head.data
-
-    def is_empty(self):
-        return self.head == None
-
-    def size(self):
-        current = self.head
-        size = 0
-        while current is not None:
-            size += 1
-            current = current.next
-        return size
     
-    def clean(self):
-        if self.head == None:
-            return True
-        self.dequeue()
-        return self.clean()
+    def peek(self):
+        if self.instance.head == None:
+            return None
+        return self.instance.head.data
+    
+    def isEmpty(self):
+        return self.instance.head == None
+    
+    def size(self):
+        return self.instance.count_nodes()
