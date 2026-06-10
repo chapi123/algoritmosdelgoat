@@ -25,10 +25,15 @@ class Stack:
             self.head = new_node
 
     def pop(self):
-        if self.head == None:
-            raise IndexError('empty stack')
+        if self.head is None:
+            raise IndexError("empty stack")
+
         value = self.head.data
         self.head = self.head.next
+
+        if self.head is None:
+            self.tail = None
+
         return value
     
     def peek(self):
