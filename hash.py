@@ -2,7 +2,7 @@ from linked_list import SingleLink
 
 def hash(a) :
     total = 0
-    for i in a:
+    for i in str(a):
         total += ord(i)
     return total
 
@@ -50,4 +50,21 @@ class Bucket_probing:
         return key % n
 
     def main(self):
-        bucket = []
+        bucket = [None for _ in range(self.size)]
+
+        for i in self.values_hashed:
+            inserted = False
+            index = self.get_index(i, self.size)
+
+            while not inserted:
+                if bucket[index] is None:
+                    bucket[index] = i
+                    inserted = True
+                else:
+                    index = (index + 1) % self.size  # importante: circular
+
+        print(bucket)
+        
+
+i = Bucket_probing(5, [1,5,6,9,2])
+i.main()
