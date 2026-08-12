@@ -1,3 +1,5 @@
+import stack_queue_linked
+
 class Queue:
     def __init__(self, queue):
         self.queue = queue
@@ -82,3 +84,76 @@ class BinaryTree :
                 queue.enqueue(current.right_child)
 
         return result
+
+    def inverse_polish_parser(self, expresion):
+        caracters = expresion.split()
+        Stack = stack_queue_linked.Stack()
+
+        for i in caracters:
+            if i in "+-/*":
+                node = Node(i)
+                node.right_child = Stack.pop()
+                node.left_child = Stack.pop()
+            else:
+                node = Node(i)
+
+            Stack.push(node)
+
+        return Stack.pop()
+
+    def evaluate(self, node):
+        if node.data == "+":
+            return self.evaluate(node.left_child) + self.evaluate(node.right_child)
+        elif node.data == "-":
+            return self.evaluate(node.left_child) - self.evaluate(node.right_child)
+        elif node.data == "*":
+            return self.evaluate(node.left_child) * self.evaluate(node.right_child)
+        elif node.data == "/":
+            return self.evaluate(node.left_child) / self.evaluate(node.right_child)
+        else:
+            return int(node.data)
+
+
+
+    def calculate(self, node):
+        if node.left_child is None and node.right_child is None:
+            return int(node.data)
+
+        left_child = self.calculate(node.left_child)
+        right_child = self.calculate(node.right_child)
+
+        if node.data == "+":
+            return left_child + right_child
+        elif node.data == "-":
+            return left_child - right_child
+        elif node.data == "*":
+            return left_child * right_child
+        elif node.data == "/":
+            return left_child / right_child
+
+NA = Node("A")
+NB = Node("B")
+NC = Node("C")
+ND = Node("D")
+NE = Node("E")
+NF = Node("F")
+NG = Node("G")
+
+NA.left_child = NB
+NA.right_child = NF
+NB.left_child = NC
+NB.right_child = NE
+NF.left_child = NG
+NC.left_child = ND
+
+instance = BinaryTree()
+instance.root = NA
+instance.pre_order(NA)
+instance.in_order(NA)
+instance.post_order(NA)
+instance.level_order(NA)
+expression = "2 6 + 8 / 9 2 - *"
+instance = BinaryTree()
+root = instance.inverse_polish_parser(expression)
+print(instance.evaluate(root))
+print(instance.calculate(root))
