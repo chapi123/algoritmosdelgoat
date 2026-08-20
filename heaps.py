@@ -31,12 +31,18 @@ class MinHeap:
     def show(self, index):
         return self.heap[index]
 
-    def delete(self, data):
-        self.heap.remove(data)
-        self.size -= 1
-        self.arrange()
+    def remove_at_location(self, index):
+        try:
+            removed = self.heap[index]
+            self.heap.remove(index)
+            self.size -= 1
+            self.arrange()
+            return removed            
+        except:
+            return False
+        
 
-    def delete_a_root(self):
+    def delete_at_root(self):
         if self.size == 0:
             return None
 
@@ -83,3 +89,11 @@ class MinHeap:
             return left
         else:
             return right
+
+    def sort(self):
+        sorted_list = []
+
+        while self.size > 0:
+            sorted_list.append(self.delete_at_root())
+
+        return sorted_list
